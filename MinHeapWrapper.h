@@ -15,7 +15,7 @@ template<typename K, typename V> class MinHeapWrapper {
     class CompareNodesInMinHeap {
       public:
         bool operator()(Node<K, V> *leftNode, Node<K, V> *rightNode) {
-            return (leftNode > rightNode);
+            return (leftNode < rightNode);
         }
     };
 

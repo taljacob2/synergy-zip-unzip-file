@@ -46,7 +46,9 @@ template<typename K, typename V> class Node {
     void setRightNode(Node *rightNode) { Node::rightNode = rightNode; }
 
   public:
-    bool operator<(const Node &rhs) const { return entry < rhs.entry; }
+    bool operator<(const Node &rhs) const {
+        return entry->getKey() < rhs.entry->getKey();
+    }
     bool operator>(const Node &rhs) const { return rhs < *this; }
     bool operator<=(const Node &rhs) const { return !(rhs < *this); }
     bool operator>=(const Node &rhs) const { return !(*this < rhs); }

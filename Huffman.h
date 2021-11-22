@@ -14,6 +14,14 @@ class Huffman {
 
   public:
     class Table : Serializable {
+
+      public:
+        /**
+         * @brief A char that is placed at the end of a binary-file which had
+         *        been zipped with a huffman-table - to mark that the table has ended.
+         */
+        static char constexpr END_OF_FILE = '\0';
+
       private:
         /**
          * @brief Contains a *table* whereas for each row, the *key* is a
@@ -167,14 +175,26 @@ class Huffman {
     }
 
   private:
+    static void writeToBinWithHuffmanTable(std::ofstream &file,
+                                           Table *        huffmanTable) {
+        // int bufferSize = 8;
+    }
+
+  private:
     static void writeToBinFile(char * fileNameToOutputAsZipped,
                                Table *huffmanTable) {
         std::ofstream file(fileNameToOutputAsZipped,
                            std::ios::out | std::ios::binary);
         if (!file) { fileIsNullMessage(fileNameToOutputAsZipped); }
 
+        // TODO: debug
+        std::cout << *huffmanTable;
+
         // Write huffman-table to file.
         huffmanTable->serialize(file);
+        writeToBinWithHuffmanTable(file, huffmanTable);
+
+
         delete huffmanTable;
     }
 
@@ -208,7 +228,6 @@ class Huffman {
 
         auto *huffmanTable = new Huffman::Table();
         huffmanTable->deserialize(file);
-
 
         delete huffmanTable;
     }
@@ -256,6 +275,9 @@ class Huffman {
      * @see Huffman::Table
      */
     static Huffman::Table *huffmanize(std::vector<Entry<int, char> *> &vector) {
+
+        // Insert a end-of-file char, which will be used when zipping to binary.
+        vector.push_back(new Entry<int, char>(1, Huffman::Table::END_OF_FILE));
 
         /*
          * Create a minimum-heap, and insert all characters of `vector`, so
