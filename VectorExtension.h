@@ -21,10 +21,10 @@ template<typename E> class VectorExtension {
   public:
     template<typename T>
     static int findIndexByPredicate(
-            std::vector<E *> &vector, T keyToFind,
+            std::vector<E *> &vector, T whatToFindInTheElement,
             const std::function<bool(E &element1, T &element2)> &predicate) {
         for (long unsigned int i = 0; i < vector.size(); ++i) {
-            if (predicate(*(vector[i]), keyToFind)) { return i; }
+            if (predicate(*(vector[i]), whatToFindInTheElement)) { return i; }
         }
         return INDEX_NOT_FOUND;
     }
