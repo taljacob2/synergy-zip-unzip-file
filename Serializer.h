@@ -68,6 +68,7 @@ class Serializer {
             (*vector)[vector->size() - 1] <<= 1;
         }
 
+        // Move to the left the last byte.
         (*vector)[vector->size() - 1] <<= (8 - (i % 8));
         return vector;
     }
