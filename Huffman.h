@@ -199,14 +199,10 @@ class Huffman {
                 (huffmanTable->findByKey(Huffman::Table::END_OF_FILE))
                         ->getValue();
 
-        std::vector<unsigned char> *vector =
-                serializer.convertBinaryStringToBinaryBitsAndMoveToTheLeft(
-                        binaryStringOfAllFile);
-        for (unsigned char byteToInsert : *vector) {
-            ofstream.write(reinterpret_cast<const char *>(&byteToInsert),
-                           sizeof(byteToInsert));
-        }
+        serializer.writeBinaryStringToBinaryFile(ofstream,
+                                                 binaryStringOfAllFile);
     }
+
 
   private:
     static void writeToBinFile(char * fileNameToZip,

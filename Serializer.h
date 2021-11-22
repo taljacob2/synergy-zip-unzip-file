@@ -73,6 +73,17 @@ class Serializer {
         return vector;
     }
 
+  public:
+    void writeBinaryStringToBinaryFile(std::ofstream &ofstream,
+                                       std::string &  binaryStringOfAllFile) {
+        std::vector<unsigned char> *vector =
+                this->convertBinaryStringToBinaryBitsAndMoveToTheLeft(
+                        binaryStringOfAllFile);
+        for (unsigned char byteToInsert : *vector) {
+            ofstream.write(reinterpret_cast<const char *>(&byteToInsert),
+                           sizeof(byteToInsert));
+        }
+    }
 };
 
 #endif // SERIALIZER_H
