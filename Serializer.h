@@ -14,12 +14,6 @@ class Serializer {
   private:
     int stringLength = 0;
 
-    // private:
-    //   /**
-    //    * Used for `vector.size()`
-    //    */
-    //   long unsigned int vectorSize = 0;
-
   public:
     template<typename T>
     void serializePrimitiveField(std::ofstream &file, T field) {
@@ -59,32 +53,10 @@ class Serializer {
         return returnValue;
     }
 
-    // TODO: remove.
-    // public:
-    //   template<typename T>
-    //   void serializeVectorOfSerializables(std::ofstream &file, std::vector<T>
-    //           &vector) {
-    //       static_assert(std::is_base_of<Serializable, T>::value,
-    //                     "T must derive from Serializable");
-    //
-    //       vectorSize = sizeof(vector.size());
-    //       file.write(reinterpret_cast<const char *>(&vectorSize),
-    //                  sizeof(vectorSize));
-    //
-    //       for (int i = 0; i < vectorSize ; ++i) {
-    //           (reinterpret_cast<Serializable>(vector[i]))
-    //       }
-    //       file.write(reinterpret_cast<const char *>(&vector), vectorSize);
-    //   }
-    //
-    // public:
-    //   template<typename T> T deserializeVectorOfSerializables(std::ifstream
-    //                                             &file) {
-    //       T returnValue;
-    //       file.read(reinterpret_cast<char *>(&sizeOfField), sizeof(sizeOfField));
-    //       file.read(reinterpret_cast<char *>(&returnValue), sizeOfField);
-    //       return returnValue;
-    //   }
+  public:
+    static char *stringToBinary(std::string &str) {
+
+    }
 };
 
 #endif // SERIALIZER_H

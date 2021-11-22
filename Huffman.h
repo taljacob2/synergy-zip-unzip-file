@@ -175,24 +175,44 @@ class Huffman {
     }
 
   private:
-    static void writeToBinWithHuffmanTable(std::ofstream &file,
+    static void writeToBinWithHuffmanTable(std::ofstream &ofstream,
+                                           std::ifstream &ifstream,
                                            Table *        huffmanTable) {
-        // int bufferSize = 8;
+        char  seenCharacter;
+        char *end;
+        while (true) {
+            ifstream >> seenCharacter;
+            if (ifstream.eof()) { return; }
+
+            std::string stringOfChar =
+                    (huffmanTable->findByKey(seenCharacter))->getValue();
+
+            long int longIntValue = std::strtol(stringOfChar.c_str(), &end, 2);
+            ofstream.write(reinterpret_cast<const char *>(&longIntValue),
+                           sizeof(longIntValue));
+
+            // TODO: debug.
+            std::cout << longIntValue;
+        }
     }
 
   private:
-    static void writeToBinFile(char * fileNameToOutputAsZipped,
+    static void writeToBinFile(char * fileNameToZip,
+                               char * fileNameToOutputAsZipped,
                                Table *huffmanTable) {
-        std::ofstream file(fileNameToOutputAsZipped,
-                           std::ios::out | std::ios::binary);
-        if (!file) { fileIsNullMessage(fileNameToOutputAsZipped); }
+        std::ofstream ofstream(fileNameToOutputAsZipped,
+                               std::ios::out | std::ios::binary);
+        if (!ofstream) { fileIsNullMessage(fileNameToOutputAsZipped); }
 
         // TODO: debug
         std::cout << *huffmanTable;
 
         // Write huffman-table to file.
-        huffmanTable->serialize(file);
-        writeToBinWithHuffmanTable(file, huffmanTable);
+        huffmanTable->serialize(ofstream);
+
+        std::ifstream ifstream(fileNameToZip);
+        if (!ifstream) { fileIsNullMessage(fileNameToOutputAsZipped); }
+        writeToBinWithHuffmanTable(ofstream, ifstream, huffmanTable);
 
 
         delete huffmanTable;
@@ -215,7 +235,7 @@ class Huffman {
         std::vector<Entry<int, char> *> *vector =
                 Huffman::countCharacters(fileNameToZip);
         Huffman::Table *huffmanTable = Huffman::huffmanize(*vector);
-        writeToBinFile(fileNameToOutputAsZipped, huffmanTable);
+        writeToBinFile(fileNameToZip, fileNameToOutputAsZipped, huffmanTable);
 
         delete vector;
     }
