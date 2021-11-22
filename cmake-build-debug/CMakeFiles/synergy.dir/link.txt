@@ -1,0 +1,1 @@
+/usr/bin/c++  -g  -rdynamic CMakeFiles/synergy.dir/main.cpp.o  -o synergy 
