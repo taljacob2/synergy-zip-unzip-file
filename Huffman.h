@@ -203,7 +203,6 @@ class Huffman {
                                                  binaryStringOfAllFile);
     }
 
-
   private:
     static void writeToBinFile(char * fileNameToZip,
                                char * fileNameToOutputAsZipped,
@@ -221,7 +220,6 @@ class Huffman {
         std::ifstream ifstream(fileNameToZip);
         if (!ifstream) { fileIsNullMessage(fileNameToOutputAsZipped); }
         writeToBinWithHuffmanTable(ofstream, ifstream, huffmanTable);
-
 
         delete huffmanTable;
     }
