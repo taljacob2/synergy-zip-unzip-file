@@ -213,8 +213,9 @@ class Huffman {
         // Write huffman-table to file.
         huffmanTable->serialize(ofstream);
 
+        // Write file content.
         std::ifstream ifstream(fileNameToZip);
-        if (!ifstream) { fileIsNullMessage(fileNameToOutputAsZipped); }
+        if (!ifstream) { fileIsNullMessage(fileNameToZip); }
         writeToBinWithHuffmanTable(ofstream, ifstream, huffmanTable);
 
         delete huffmanTable;
@@ -242,17 +243,50 @@ class Huffman {
         delete vector;
     }
 
+  private:
+    static void readFromBinWithHuffmanTable(std::ofstream &ofstream,
+                                            std::ifstream &ifstream,
+                                            Table *       huffmanTable) {
+        Serializer  serializer;
+        char        seenCharacter;
+        std::string binaryStringOfAllFile;
+
+        /*
+         * Read all characters in the file, an write their huffman-code to
+         * the binary file.
+         */
+        while (true) {
+            ifstream >> seenCharacter;
+            if (ifstream.eof()) { break; }
+
+            binaryStringOfAllFile +=
+                    (huffmanTable->findByKey(seenCharacter))->getValue();
+        }
+
+        // Attach the end-of-file marker.
+        binaryStringOfAllFile +=
+                (huffmanTable->findByKey(Huffman::Table::END_OF_FILE))
+                        ->getValue();
+
+        serializer.writeBinaryStringToBinaryFile(ofstream,
+                                                 binaryStringOfAllFile);
+    }
+
   public:
     static void unzipFile(char *fileNameToUnzip,
                           char *fileNameToOutputAsUnzipped) {
-        std::ifstream file(fileNameToUnzip, std::ios::in | std::ios::binary);
-        if (!file) { fileIsNullMessage(fileNameToUnzip); }
+        std::ifstream ifstream(fileNameToUnzip,
+                               std::ios::in | std::ios::binary);
+        if (!ifstream) { fileIsNullMessage(fileNameToUnzip); }
 
+        // Read huffman-table from file.
         auto *huffmanTable = new Huffman::Table();
-        huffmanTable->deserialize(file);
+        huffmanTable->deserialize(ifstream);
 
-        // TODO: debug
-        std::cout << *huffmanTable;
+        // Read file content.
+        std::ofstream ofstream(fileNameToUnzip);
+        if (!ifstream) { fileIsNullMessage(fileNameToUnzip); }
+        readFromBinWithHuffmanTable(ofstream, ifstream, huffmanTable);
 
         delete huffmanTable;
     }
