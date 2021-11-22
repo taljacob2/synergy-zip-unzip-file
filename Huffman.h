@@ -178,21 +178,35 @@ class Huffman {
     static void writeToBinWithHuffmanTable(std::ofstream &ofstream,
                                            std::ifstream &ifstream,
                                            Table *        huffmanTable) {
-        char  seenCharacter;
-        char *end;
+        Serializer  serializer;
+        char        seenCharacter;
+        std::string binaryStringOfAllFile;
+
+        /*
+         * Read all characters in the file, an write their huffman-code to
+         * the binary file.
+         */
         while (true) {
             ifstream >> seenCharacter;
-            if (ifstream.eof()) { return; }
+            if (ifstream.eof()) { break; }
 
-            std::string stringOfChar =
+            binaryStringOfAllFile +=
                     (huffmanTable->findByKey(seenCharacter))->getValue();
+        }
 
-            long int longIntValue = std::strtol(stringOfChar.c_str(), &end, 2);
-            ofstream.write(reinterpret_cast<const char *>(&longIntValue),
-                           sizeof(longIntValue));
+        // Attach the end-of-file marker.
+        binaryStringOfAllFile +=
+                (huffmanTable->findByKey(Huffman::Table::END_OF_FILE))
+                        ->getValue();
+        // TODO: debug
+        std::cout << binaryStringOfAllFile;
 
-            // TODO: debug.
-            std::cout << longIntValue;
+        std::vector<unsigned char> *vector =
+                serializer.convertBinaryStringToBinaryBitsAndMoveToTheLeft(
+                        binaryStringOfAllFile);
+        for (unsigned char byteToInsert : *vector) {
+            ofstream.write(reinterpret_cast<const char *>(&byteToInsert),
+                           sizeof(byteToInsert));
         }
     }
 

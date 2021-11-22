@@ -54,9 +54,24 @@ class Serializer {
     }
 
   public:
-    static char *stringToBinary(std::string &str) {
+    std::vector<unsigned char> *
+    convertBinaryStringToBinaryBitsAndMoveToTheLeft(std::string &str) {
+        auto          vector = new std::vector<unsigned char>();
+        unsigned char bitToInsert;
+        int           i = 0;
+        for (; i < str.length(); ++i) {
+            if ((i % 8) == 0) {
+                vector->push_back('\0'); // Insert empty char.
+            }
+            bitToInsert = str[i] - '0';
+            (*vector)[vector->size() - 1] |= bitToInsert;
+            (*vector)[vector->size() - 1] <<= 1;
+        }
 
+        (*vector)[vector->size() - 1] <<= (8 - (i % 8));
+        return vector;
     }
+
 };
 
 #endif // SERIALIZER_H
