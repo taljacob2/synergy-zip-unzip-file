@@ -88,7 +88,13 @@ class Huffman {
 
       public:
         Entry<char, std::string> *findByKey(char keyToFind) {
-            return vector[findIndexByKey(keyToFind)];
+            int index = findIndexByKey(keyToFind);
+            if (index ==
+                VectorExtension<Entry<char, std::string>>::INDEX_NOT_FOUND) {
+                return nullptr;
+            }
+
+            return vector[index];
         }
 
       public:
@@ -101,7 +107,13 @@ class Huffman {
 
       public:
         Entry<char, std::string> *findByValue(std::string &valueToFind) {
-            return vector[findIndexByValue(valueToFind)];
+            int index = findIndexByValue(valueToFind);
+            if (index ==
+                VectorExtension<Entry<char, std::string>>::INDEX_NOT_FOUND) {
+                return nullptr;
+            }
+
+            return vector[index];
         }
     };
 
@@ -285,9 +297,13 @@ class Huffman {
         std::string currentCheckedString;
         for (int i = 0; i < binaryStringOfAllFile.length(); ++i) {
             currentCheckedString = binaryStringOfAllFile.substr(0, i);
+
+            // TODO: debug
+            std::cout << currentCheckedString;
+
             Entry<char, std::string> *entry =
                     huffmanTable->findByValue(currentCheckedString);
-            if (entry) {
+            if (entry != nullptr) {
 
                 /*
                  * This string is mapped to a character. Extract that
