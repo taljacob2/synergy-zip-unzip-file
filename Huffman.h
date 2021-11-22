@@ -81,14 +81,26 @@ class Huffman {
 
       public:
         int findIndexOfKey(char keyToFind) {
-            return VectorExtension<Entry<char, std::string>>::findIndexOfKey<
-                    char>(vector, keyToFind, predicateOfKey);
+            return VectorExtension<Entry<char, std::string>>::
+                    findIndexByPredicate<char>(vector, keyToFind,
+                                               predicateOfKey);
         }
 
       public:
         Entry<char, std::string> *findByKey(char keyToFind) {
             return vector[findIndexOfKey(keyToFind)];
         }
+
+      // public:
+      //   int findIndexOfValue(std::string &valueToFind) {
+      //       return VectorExtension<Entry<char, std::string>>::findIndexByPredicate<
+      //               std::string>(vector, valueToFind, predicateOfValue);
+      //   }
+      //
+      // public:
+      //   Entry<char, std::string> *findByValue(char keyToFind) {
+      //       return vector[findIndexOfKey(keyToFind)];
+      //   }
     };
 
   private:
@@ -141,7 +153,7 @@ class Huffman {
 
             // Try to find `seenCharacter` in the `vector`.
             foundIndex =
-                    VectorExtension<Entry<int, char>>::findIndexOfValue<char>(
+                    VectorExtension<Entry<int, char>>::findIndexByPredicate<char>(
                             vector, seenCharacter, predicateOfValue);
             if (foundIndex !=
                 VectorExtension<Entry<int, char>>::INDEX_NOT_FOUND) {

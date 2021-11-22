@@ -19,21 +19,10 @@ template<typename E> class VectorExtension {
     }
 
   public:
-    template<typename V>
-    static int findIndexOfValue(
-            std::vector<E *> &vector, V valueToFind,
-            const std::function<bool(E &element1, V &element2)> &predicate) {
-        for (long unsigned int i = 0; i < vector.size(); ++i) {
-            if (predicate(*(vector[i]), valueToFind)) { return i; }
-        }
-        return INDEX_NOT_FOUND;
-    }
-
-  public:
-    template<typename K>
-    static int findIndexOfKey(
-            std::vector<E *> &vector, K keyToFind,
-            const std::function<bool(E &element1, K &element2)> &predicate) {
+    template<typename T>
+    static int findIndexByPredicate(
+            std::vector<E *> &vector, T keyToFind,
+            const std::function<bool(E &element1, T &element2)> &predicate) {
         for (long unsigned int i = 0; i < vector.size(); ++i) {
             if (predicate(*(vector[i]), keyToFind)) { return i; }
         }
