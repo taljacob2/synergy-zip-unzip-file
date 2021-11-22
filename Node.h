@@ -9,13 +9,13 @@
 template<typename K, typename V> class Node {
 
   private:
-    Entry<K, V> *entry;
+    Entry<K, V> *entry = nullptr;
 
   private:
-    Node *leftNode;
+    Node *leftNode = nullptr;
 
   private:
-    Node *rightNode;
+    Node *rightNode = nullptr;
 
   public:
     explicit Node(Entry<K, V> *entry) : entry(entry) {}
