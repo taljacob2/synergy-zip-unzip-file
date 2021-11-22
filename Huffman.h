@@ -99,8 +99,7 @@ class Huffman {
      */
     static constexpr char INTERNAL_CHAR = '+';
 
-    // TODO: un-public
-  public:
+  private:
     /**
      * @brief this function reads a *text* file and counts the frequency of
      *        each character appeared in the file.
@@ -211,9 +210,6 @@ class Huffman {
                                std::ios::out | std::ios::binary);
         if (!ofstream) { fileIsNullMessage(fileNameToOutputAsZipped); }
 
-        // TODO: debug
-        std::cout << *huffmanTable;
-
         // Write huffman-table to file.
         huffmanTable->serialize(ofstream);
 
@@ -254,6 +250,9 @@ class Huffman {
 
         auto *huffmanTable = new Huffman::Table();
         huffmanTable->deserialize(file);
+
+        // TODO: debug
+        std::cout << *huffmanTable;
 
         delete huffmanTable;
     }
