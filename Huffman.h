@@ -304,12 +304,8 @@ class Huffman {
         std::string currentCheckedString;
         for (int startIndex = 0, sizeSinceStartIndex = 1;
              startIndex < binaryStringOfAllFile.length();) {
-            currentCheckedString =
-                    binaryStringOfAllFile.substr(startIndex, sizeSinceStartIndex);
-
-            // TODO: debug
-            std::cout << currentCheckedString << std::endl;
-
+            currentCheckedString = binaryStringOfAllFile.substr(
+                    startIndex, sizeSinceStartIndex);
             Entry<char, std::string> *entry =
                     huffmanTable->findByValue(currentCheckedString);
             if (entry != nullptr) {
@@ -323,9 +319,6 @@ class Huffman {
                     // We have found the end-of-file marker - thus, quit.
                     break;
                 }
-
-                // // TODO: debug
-                // std::cout << entry->getKey();
 
                 ofstream << entry->getKey();
                 startIndex += sizeSinceStartIndex;
