@@ -83,6 +83,8 @@ class Serializer {
             ofstream.write(reinterpret_cast<const char *>(&byteToInsert),
                            sizeof(byteToInsert));
         }
+
+        delete vector;
     }
 };
 
