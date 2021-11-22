@@ -288,30 +288,27 @@ class Huffman {
         std::string binaryStringOfAllFile;
 
         // Read all huffman-codes in the file, to a large string.
-        while (true) {
-            // ifstream >> seenCharacter;
-
-            ifstream.read(reinterpret_cast<char *>(&seenCharacter),
-                          sizeof(seenCharacter));
-
-            if (ifstream.eof()) { break; }
-
-            std::string *seenBinaryString =
-                    serializer.convertBinaryBitsToBinaryString(seenCharacter);
-            binaryStringOfAllFile += *(seenBinaryString);
-
-            delete seenBinaryString;
-        }
+        binaryStringOfAllFile = serializer.readBinaryBitsToBinaryString(
+                ifstream, seenCharacter, binaryStringOfAllFile);
 
         // TODO: debug
-        std::cout << binaryStringOfAllFile;
+        std::cout << binaryStringOfAllFile << std::endl;
 
+        writeHuffmanCodeFromBinaryStringToTextFile(ofstream, huffmanTable,
+                                                   binaryStringOfAllFile);
+    }
+
+    static void writeHuffmanCodeFromBinaryStringToTextFile(
+            std::ofstream &ofstream, Table *huffmanTable,
+            std::string &binaryStringOfAllFile) {
         std::string currentCheckedString;
-        for (int i = 0; i < binaryStringOfAllFile.length(); ++i) {
-            currentCheckedString = binaryStringOfAllFile.substr(0, i);
+        for (int startIndex = 0, sizeSinceStartIndex = 1;
+             startIndex < binaryStringOfAllFile.length();) {
+            currentCheckedString =
+                    binaryStringOfAllFile.substr(startIndex, sizeSinceStartIndex);
 
-            // // TODO: debug
-            // std::cout << currentCheckedString;
+            // TODO: debug
+            std::cout << currentCheckedString << std::endl;
 
             Entry<char, std::string> *entry =
                     huffmanTable->findByValue(currentCheckedString);
@@ -321,7 +318,7 @@ class Huffman {
                  * This string is mapped to a character. Extract that
                  * character from the hash-table, and write to the output-file.
                  */
-                if (entry->getKey() == Huffman::Table::END_OF_FILE) {
+                if (entry->getKey() == Table::END_OF_FILE) {
 
                     // We have found the end-of-file marker - thus, quit.
                     break;
@@ -331,8 +328,10 @@ class Huffman {
                 // std::cout << entry->getKey();
 
                 ofstream << entry->getKey();
-                binaryStringOfAllFile = binaryStringOfAllFile.substr(i);
+                startIndex += sizeSinceStartIndex;
+                sizeSinceStartIndex = 0;
             }
+            ++sizeSinceStartIndex;
         }
     }
 

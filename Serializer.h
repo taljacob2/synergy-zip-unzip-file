@@ -98,6 +98,24 @@ class Serializer {
         }
         return str;
     }
+
+  public:
+    std::string &
+    readBinaryBitsToBinaryString(std::ifstream &ifstream, char &seenCharacter,
+                                 std::string &binaryStringOfAllFile) {
+        while (true) {
+            ifstream.read(reinterpret_cast<char *>(&seenCharacter),
+                          sizeof(seenCharacter));
+            if (ifstream.eof()) { break; }
+
+            std::string *seenBinaryString =
+                    this->convertBinaryBitsToBinaryString(seenCharacter);
+            binaryStringOfAllFile += *(seenBinaryString);
+
+            delete seenBinaryString;
+        }
+        return binaryStringOfAllFile;
+    }
 };
 
 #endif // SERIALIZER_H
