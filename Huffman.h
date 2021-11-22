@@ -347,6 +347,9 @@ class Huffman {
         auto *huffmanTable = new Huffman::Table();
         huffmanTable->deserialize(ifstream);
 
+        // TODO: debug
+        std::cout << *huffmanTable;
+
         // Read file content.
         std::ofstream ofstream(fileNameToOutputAsUnzipped);
         if (!ofstream) { fileIsNullMessage(fileNameToOutputAsUnzipped); }
