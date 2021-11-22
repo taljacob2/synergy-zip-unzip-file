@@ -308,6 +308,10 @@ class Huffman {
                     startIndex, sizeSinceStartIndex);
             Entry<char, std::string> *entry =
                     huffmanTable->findByValue(currentCheckedString);
+
+            // TODO: debug:
+            std::cout << currentCheckedString << std::endl;
+
             if (entry != nullptr) {
 
                 /*
