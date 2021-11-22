@@ -314,6 +314,10 @@ class Huffman {
                     // We have found the end-of-file marker - thus, quit.
                     break;
                 }
+
+                // TODO: debug
+                std::cout << entry->getKey();
+
                 ofstream << entry->getKey();
                 binaryStringOfAllFile = binaryStringOfAllFile.substr(i);
             }
