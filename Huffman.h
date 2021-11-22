@@ -94,14 +94,15 @@ class Huffman {
       public:
         int findIndexByValue(std::string &valueToFind) {
             return VectorExtension<Entry<char, std::string>>::
-                    findIndexByPredicate(vector, valueToFind,
-                                         predicateOfValueInCharStringEntry);
+                    findIndexByPredicate<std::string>(
+                            vector, valueToFind,
+                            predicateOfValueInCharStringEntry);
         }
 
-        // public:
-        //   Entry<char, std::string> *findByValue(char valueToFind) {
-        //       return vector[findIndexByValue(valueToFind)];
-        //   }
+      public:
+        Entry<char, std::string> *findByValue(std::string &valueToFind) {
+            return vector[findIndexByValue(valueToFind)];
+        }
     };
 
   private:
