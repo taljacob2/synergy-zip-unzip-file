@@ -70,6 +70,17 @@ class Huffman {
                 vector.push_back(entry);
             }
         }
+
+      public:
+        int findIndexOfKey(char keyToFind) {
+            return VectorExtension<Entry<char, std::string>>::findIndexOfKey<
+                    char>(vector, keyToFind, predicateOfKey);
+        }
+
+      public:
+        Entry<char, std::string> *findByKey(char keyToFind) {
+            return vector[findIndexOfKey(keyToFind)];
+        }
     };
 
   private:
@@ -156,8 +167,8 @@ class Huffman {
     }
 
   private:
-    static void writeHuffmanToBinFile(char * fileNameToOutputAsZipped,
-                                      Table *huffmanTable) {
+    static void writeToBinFile(char * fileNameToOutputAsZipped,
+                               Table *huffmanTable) {
         std::ofstream file(fileNameToOutputAsZipped,
                            std::ios::out | std::ios::binary);
         if (!file) { fileIsNullMessage(fileNameToOutputAsZipped); }
@@ -184,7 +195,7 @@ class Huffman {
         std::vector<Entry<int, char> *> *vector =
                 Huffman::countCharacters(fileNameToZip);
         Huffman::Table *huffmanTable = Huffman::huffmanize(*vector);
-        writeHuffmanToBinFile(fileNameToOutputAsZipped, huffmanTable);
+        writeToBinFile(fileNameToOutputAsZipped, huffmanTable);
 
         delete vector;
     }
@@ -195,13 +206,9 @@ class Huffman {
         std::ifstream file(fileNameToUnzip, std::ios::in | std::ios::binary);
         if (!file) { fileIsNullMessage(fileNameToUnzip); }
 
-        // Read huffman-table from file.
-        // TODO: need to fix read.
         auto *huffmanTable = new Huffman::Table();
         huffmanTable->deserialize(file);
 
-        // // TODO: debug
-        std::cout << *huffmanTable;
 
         delete huffmanTable;
     }

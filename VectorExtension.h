@@ -30,10 +30,10 @@ template<typename E> class VectorExtension {
     }
 
   public:
-    template<typename V>
+    template<typename K>
     static int findIndexOfKey(
-            std::vector<E *> &vector, V keyToFind,
-            const std::function<bool(E &element1, V &element2)> &predicate) {
+            std::vector<E *> &vector, K keyToFind,
+            const std::function<bool(E &element1, K &element2)> &predicate) {
         for (long unsigned int i = 0; i < vector.size(); ++i) {
             if (predicate(*(vector[i]), keyToFind)) { return i; }
         }
