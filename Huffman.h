@@ -207,7 +207,7 @@ class Huffman {
 
         /*
          * Read all characters in the file, an write their huffman-code to
-         * the binary file.
+         * a large string.
          */
         while (true) {
             ifstream >> seenCharacter;
@@ -271,29 +271,37 @@ class Huffman {
     static void readFromBinWithHuffmanTable(std::ofstream &ofstream,
                                             std::ifstream &ifstream,
                                             Table *        huffmanTable) {
-        Serializer  serializer;
         char        seenCharacter;
         std::string binaryStringOfAllFile;
 
-        /*
-         * Read all characters in the file, an write their huffman-code to
-         * the binary file.
-         */
+        // Read all huffman-codes in the file, to a large string.
         while (true) {
             ifstream >> seenCharacter;
             if (ifstream.eof()) { break; }
 
-            binaryStringOfAllFile +=
-                    (huffmanTable->findByKey(seenCharacter))->getValue();
+            binaryStringOfAllFile += seenCharacter;
         }
 
-        // Attach the end-of-file marker.
-        binaryStringOfAllFile +=
-                (huffmanTable->findByKey(Huffman::Table::END_OF_FILE))
-                        ->getValue();
+        std::string currentCheckedString;
+        for (int i = 0; i < binaryStringOfAllFile.length(); ++i) {
+            currentCheckedString = binaryStringOfAllFile.substr(0, i);
+            Entry<char, std::string> *entry =
+                    huffmanTable->findByValue(currentCheckedString);
+            if (entry) {
 
-        serializer.writeBinaryStringToBinaryFile(ofstream,
-                                                 binaryStringOfAllFile);
+                /*
+                 * This string is mapped to a character. Extract that
+                 * character from the hash-table, and write to the output-file.
+                 */
+                if (entry->getKey() == Huffman::Table::END_OF_FILE) {
+
+                    // We have found the end-of-file marker - thus, quit.
+                    break;
+                }
+                ofstream << entry->getKey();
+                binaryStringOfAllFile = binaryStringOfAllFile.substr(i);
+            }
+        }
     }
 
   public:
