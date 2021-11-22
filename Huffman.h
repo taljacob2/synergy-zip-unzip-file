@@ -316,8 +316,8 @@ class Huffman {
         huffmanTable->deserialize(ifstream);
 
         // Read file content.
-        std::ofstream ofstream(fileNameToUnzip);
-        if (!ifstream) { fileIsNullMessage(fileNameToUnzip); }
+        std::ofstream ofstream(fileNameToOutputAsUnzipped);
+        if (!ofstream) { fileIsNullMessage(fileNameToOutputAsUnzipped); }
         readFromBinWithHuffmanTable(ofstream, ifstream, huffmanTable);
 
         delete huffmanTable;
