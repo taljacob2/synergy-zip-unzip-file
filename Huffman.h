@@ -283,23 +283,35 @@ class Huffman {
     static void readFromBinWithHuffmanTable(std::ofstream &ofstream,
                                             std::ifstream &ifstream,
                                             Table *        huffmanTable) {
+        Serializer  serializer;
         char        seenCharacter;
         std::string binaryStringOfAllFile;
 
         // Read all huffman-codes in the file, to a large string.
         while (true) {
-            ifstream >> seenCharacter;
+            // ifstream >> seenCharacter;
+
+            ifstream.read(reinterpret_cast<char *>(&seenCharacter),
+                          sizeof(seenCharacter));
+
             if (ifstream.eof()) { break; }
 
-            binaryStringOfAllFile += seenCharacter;
+            std::string *seenBinaryString =
+                    serializer.convertBinaryBitsToBinaryString(seenCharacter);
+            binaryStringOfAllFile += *(seenBinaryString);
+
+            delete seenBinaryString;
         }
+
+        // TODO: debug
+        std::cout << binaryStringOfAllFile;
 
         std::string currentCheckedString;
         for (int i = 0; i < binaryStringOfAllFile.length(); ++i) {
             currentCheckedString = binaryStringOfAllFile.substr(0, i);
 
-            // TODO: debug
-            std::cout << currentCheckedString;
+            // // TODO: debug
+            // std::cout << currentCheckedString;
 
             Entry<char, std::string> *entry =
                     huffmanTable->findByValue(currentCheckedString);
@@ -315,8 +327,8 @@ class Huffman {
                     break;
                 }
 
-                // TODO: debug
-                std::cout << entry->getKey();
+                // // TODO: debug
+                // std::cout << entry->getKey();
 
                 ofstream << entry->getKey();
                 binaryStringOfAllFile = binaryStringOfAllFile.substr(i);

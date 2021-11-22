@@ -4,6 +4,7 @@
 #define SERIALIZER_H
 
 #include <fstream>
+#include <iostream>
 #include <vector>
 
 class Serializer {
@@ -54,37 +55,48 @@ class Serializer {
     }
 
   public:
-    std::vector<unsigned char> *
+    std::string *
     convertBinaryStringToBinaryBitsAndMoveToTheLeft(std::string &str) {
-        auto          vector = new std::vector<unsigned char>();
+        auto          stringOfBits = new std::string();
         unsigned char bitToInsert;
         int           i = 0;
         for (; i < str.length(); ++i) {
             if ((i % 8) == 0) {
-                vector->push_back('\0'); // Insert empty char.
+                stringOfBits->push_back('\0'); // Insert empty char.
             }
             bitToInsert = str[i] - '0';
-            (*vector)[vector->size() - 1] |= bitToInsert;
-            (*vector)[vector->size() - 1] <<= 1;
+            bitToInsert <<= (8 - ((i + 1) % 8)); // Move to the left.
+            ((*stringOfBits)[stringOfBits->length() - 1]) |= bitToInsert;
         }
 
-        // Move to the left the last byte.
-        (*vector)[vector->size() - 1] <<= (8 - (i % 8));
-        return vector;
+        return stringOfBits;
     }
 
   public:
     void writeBinaryStringToBinaryFile(std::ofstream &ofstream,
                                        std::string &  binaryStringOfAllFile) {
-        std::vector<unsigned char> *vector =
+        std::string *stringOfBits =
                 this->convertBinaryStringToBinaryBitsAndMoveToTheLeft(
                         binaryStringOfAllFile);
-        for (unsigned char byteToInsert : *vector) {
+        for (unsigned char byteToInsert : *stringOfBits) {
             ofstream.write(reinterpret_cast<const char *>(&byteToInsert),
                            sizeof(byteToInsert));
         }
 
-        delete vector;
+        delete stringOfBits;
+    }
+
+  public:
+    std::string *convertBinaryBitsToBinaryString(char charToConvert) {
+        auto str = new std::string();
+        for (int i = 0; i < 8; ++i) {
+            unsigned char extractedChar = charToConvert;
+            extractedChar >>= 7; // Move to the right.
+            extractedChar += '0';
+            str->push_back(extractedChar);
+            charToConvert <<= 1;
+        }
+        return str;
     }
 };
 

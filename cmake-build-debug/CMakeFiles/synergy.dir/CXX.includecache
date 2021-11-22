@@ -49,6 +49,8 @@ fstream
 /mnt/c/Users/Tal/C_Code/cpp/synergy/Serializer.h
 fstream
 -
+iostream
+-
 vector
 -
 
