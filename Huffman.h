@@ -234,9 +234,6 @@ class Huffman {
                 (huffmanTable->findByKey(Huffman::Table::END_OF_FILE))
                         ->getValue();
 
-        // TODO: debug
-        // std::cout << binaryStringOfAllFile << std::endl;
-
         serializer.writeBinaryStringToBinaryFile(ofstream,
                                                  binaryStringOfAllFile);
     }
@@ -294,9 +291,6 @@ class Huffman {
         binaryStringOfAllFile = serializer.readBinaryBitsToBinaryString(
                 ifstream, seenCharacter, binaryStringOfAllFile);
 
-        // TODO: debug
-        std::cout << binaryStringOfAllFile << std::endl;
-
         writeHuffmanCodeFromBinaryStringToTextFile(ofstream, huffmanTable,
                                                    binaryStringOfAllFile);
     }
@@ -311,9 +305,6 @@ class Huffman {
                     startIndex, sizeSinceStartIndex);
             Entry<char, std::string> *entry =
                     huffmanTable->findByValue(currentCheckedString);
-
-            // TODO: debug:
-            std::cout << currentCheckedString << std::endl;
 
             if (entry != nullptr) {
 
@@ -345,9 +336,6 @@ class Huffman {
         // Read huffman-table from file.
         auto *huffmanTable = new Huffman::Table();
         huffmanTable->deserialize(ifstream);
-
-        // TODO: debug
-        std::cout << *huffmanTable;
 
         // Read file content.
         std::ofstream ofstream(fileNameToOutputAsUnzipped);

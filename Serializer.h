@@ -74,8 +74,6 @@ class Serializer {
   public:
     void writeBinaryStringToBinaryFile(std::ofstream &ofstream,
                                        std::string &  binaryStringOfAllFile) {
-
-        // FIXME: here is the problem!
         std::string *stringOfBits =
                 this->convertBinaryStringToBinaryBitsAndMoveToTheLeft(
                         binaryStringOfAllFile);
