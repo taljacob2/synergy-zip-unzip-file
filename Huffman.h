@@ -19,8 +19,11 @@ class Huffman {
         /**
          * @brief A char that is placed at the end of a binary-file which had
          *        been zipped with a huffman-table - to mark that the table has ended.
+         * @note This value is arbitrary, so you may change this character as
+         *       you like. A good choice will be a character that is not used
+         *       occasionally, such as *invisible characters*.
          */
-        static char constexpr END_OF_FILE = '\0';
+        static char constexpr END_OF_FILE = '\6';
 
       private:
         /**

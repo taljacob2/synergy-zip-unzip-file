@@ -3,8 +3,11 @@
 /**
  * @mainpage Zip / Unzip file.
  *
- * @brief This program is able to zip / unzip a *text* file that contains
- *        only the letters: a,b,c,d,e,f,g,h.
+ * @brief This program is able to zip / unzip a *text* file which contains
+ *        *any* characters, except the one defined in `Huffman::Table::END_OF_FILE`.
+ *
+ * This program uses the *Huffman* algorithm to create a map, that translates
+ * every character in the file, to a unique sequence of bits.
  *
  * @author Tal Jacob, email: taljacob2@gmail.com, phone: 054-6145961.
  */
