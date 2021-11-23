@@ -59,15 +59,13 @@ class Serializer {
     convertBinaryStringToBinaryBitsAndMoveToTheLeft(std::string &str) {
         auto          stringOfBits = new std::string();
         unsigned char bitToInsert;
-        int           i = 0;
-        stringOfBits->push_back('\0'); // Insert empty char.
-        for (; i < str.length(); ++i) {
-            bitToInsert = str[i] - '0';
-            bitToInsert <<= (8 - ((i + 1) % 8)); // Move to the left.
-            ((*stringOfBits)[stringOfBits->length() - 1]) |= bitToInsert;
-            if ((i != 0) && ((i % 8) == 0) && (i < str.length())) {
+        for (int i = 0; i < str.length(); ++i) {
+            if (((i % 8) == 0) && ((i + 1) < str.length())) {
                 stringOfBits->push_back('\0'); // Insert empty char.
             }
+            bitToInsert = str[i] - '0';
+            bitToInsert <<= (7 - (i % 8)); // Move to the left.
+            ((*stringOfBits)[stringOfBits->length() - 1]) |= bitToInsert;
         }
 
         return stringOfBits;
