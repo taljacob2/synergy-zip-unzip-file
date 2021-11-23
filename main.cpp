@@ -13,7 +13,6 @@
  */
 int main() {
     Huffman::zipFile((char *) "test.txt", (char *) "zipped.bin");
-
     Huffman::unzipFile((char *) "zipped.bin", (char *) "unzipped.txt");
 
     return 0;
