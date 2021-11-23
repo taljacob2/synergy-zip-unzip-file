@@ -7,6 +7,7 @@
 #include <fstream>
 #include <iostream>
 #include <ostream>
+
 /**
  * @brief This class represents a general *entry*, which is composed from a
  *        *key* and a *value*.
@@ -24,6 +25,7 @@ template<typename K, typename V> class Entry : public Serializable {
     /// The *key* of the entry. @attention **Must** be `comparable`.
     K key;
 
+  private:
     /// The *value* of the entry.
     V value;
 
@@ -39,28 +41,28 @@ template<typename K, typename V> class Entry : public Serializable {
         this->value = value;
     }
 
+  public:
     /**
      * @brief Empty default constructor.
      */
     Entry() = default;
 
+  public:
     virtual ~Entry() = default;
 
-    /* -- Getters & Setters -- */
-
+  public:
     K getKey() const { return key; }
 
+  public:
     void setKey(K key) { this->key = key; }
 
+  public:
     V getValue() const { return value; }
 
+  public:
     void setValue(V value) { this->value = value; }
 
-    /* -- Operators -- */
-
-    /**
-     * @brief std::ostream `operator <<` print method.
-     */
+  public:
     friend std::ostream &operator<<(std::ostream &os, const Entry &entry) {
         os << "(key: " << entry.key << ", value: " << entry.value << ")";
         return os;

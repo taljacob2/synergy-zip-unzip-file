@@ -1,11 +1,9 @@
-//
-// Created by Tal on 21-Nov-21.
-//
 
 #ifndef NODE_H
 #define NODE_H
 
 #include "Entry.h"
+
 template<typename K, typename V> class Node {
 
   private:
@@ -49,8 +47,11 @@ template<typename K, typename V> class Node {
     bool operator<(const Node &rhs) const {
         return entry->getKey() < rhs.entry->getKey();
     }
+
     bool operator>(const Node &rhs) const { return rhs < *this; }
+
     bool operator<=(const Node &rhs) const { return !(rhs < *this); }
+
     bool operator>=(const Node &rhs) const { return !(*this < rhs); }
 };
 

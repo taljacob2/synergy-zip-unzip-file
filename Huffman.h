@@ -1,9 +1,7 @@
-//
-// Created by Tal on 21-Nov-21.
-//
 
 #ifndef HUFFMAN_H
 #define HUFFMAN_H
+
 #include "Entry.h"
 #include "MinHeapWrapper.h"
 #include "VectorExtension.h"
