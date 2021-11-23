@@ -235,7 +235,7 @@ class Huffman {
                         ->getValue();
 
         // TODO: debug
-        std::cout << binaryStringOfAllFile << std::endl;
+        // std::cout << binaryStringOfAllFile << std::endl;
 
         serializer.writeBinaryStringToBinaryFile(ofstream,
                                                  binaryStringOfAllFile);

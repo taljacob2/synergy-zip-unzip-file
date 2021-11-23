@@ -60,7 +60,7 @@ class Serializer {
         auto          stringOfBits = new std::string();
         unsigned char bitToInsert;
         for (int i = 0; i < str.length(); ++i) {
-            if (((i % 8) == 0) && ((i + 1) < str.length())) {
+            if (((i % 8) == 0) && (i < str.length())) {
                 stringOfBits->push_back('\0'); // Insert empty char.
             }
             bitToInsert = str[i] - '0';
