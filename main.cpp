@@ -16,8 +16,9 @@
  * @author Tal Jacob, email: taljacob2@gmail.com, phone: 054-6145961.
  */
 int main() {
-    Huffman::zipFile((char *) "test.txt", (char *) "zipped.bin");
-    Huffman::unzipFile((char *) "zipped.bin", (char *) "unzipped.txt");
+    Huffman::zipFile((char *) "text.txt", (char *) "zipped-text.bin");
+    Huffman::unzipFile((char *) "zipped-text.bin",
+                       (char *) "unzipped-text.txt");
 
     return 0;
 }
