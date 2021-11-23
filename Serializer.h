@@ -60,13 +60,14 @@ class Serializer {
         auto          stringOfBits = new std::string();
         unsigned char bitToInsert;
         int           i = 0;
+        stringOfBits->push_back('\0'); // Insert empty char.
         for (; i < str.length(); ++i) {
-            if ((i % 8) == 0) {
-                stringOfBits->push_back('\0'); // Insert empty char.
-            }
             bitToInsert = str[i] - '0';
             bitToInsert <<= (8 - ((i + 1) % 8)); // Move to the left.
             ((*stringOfBits)[stringOfBits->length() - 1]) |= bitToInsert;
+            if ((i != 0) && ((i % 8) == 0) && (i < str.length())) {
+                stringOfBits->push_back('\0'); // Insert empty char.
+            }
         }
 
         return stringOfBits;
@@ -75,10 +76,13 @@ class Serializer {
   public:
     void writeBinaryStringToBinaryFile(std::ofstream &ofstream,
                                        std::string &  binaryStringOfAllFile) {
+
+        // FIXME: here is the problem!
         std::string *stringOfBits =
                 this->convertBinaryStringToBinaryBitsAndMoveToTheLeft(
                         binaryStringOfAllFile);
-        for (unsigned char byteToInsert : *stringOfBits) {
+
+        for (char byteToInsert : *stringOfBits) {
             ofstream.write(reinterpret_cast<const char *>(&byteToInsert),
                            sizeof(byteToInsert));
         }

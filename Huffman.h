@@ -234,6 +234,9 @@ class Huffman {
                 (huffmanTable->findByKey(Huffman::Table::END_OF_FILE))
                         ->getValue();
 
+        // TODO: debug
+        std::cout << binaryStringOfAllFile << std::endl;
+
         serializer.writeBinaryStringToBinaryFile(ofstream,
                                                  binaryStringOfAllFile);
     }
